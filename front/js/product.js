@@ -20,7 +20,7 @@ item__img[0].appendChild(newItemImg);
 const item__title = document.getElementById("title");
 const item__price = document.getElementById("price");
 const item__description = document.getElementById("description");
-
+const option = document.getElementsByTagName("option");
 
 
 
@@ -61,6 +61,36 @@ fetch(`http://localhost:3000/api/products/${productId}`)
 // localstorage pour accès à l'array depuis page panier
 // ajout produit panier : si new produit => new elem dans array
 //                       si produit présent => incrémtentation de la qté du produit présent array
+
+
+// créer array localstorage
+
+
+
+
+
+// déclaration variables pour accès btn
+const button = document.getElementById("addToCart");
+
+// vérifier au click du btn qu'une couleur est renseignée ainsi qu'une qté sup à 0
+button.addEventListener("click", function() {
+
+    if (option.value != "" && quantity.value >= 1) {
+
+        let productStorage =  [productId, quantity.value, colors.value];
+        let arrayLinea = JSON.stringify(productStorage);
+        localStorage.setItem('array', arrayLinea);
+
+        window.location.href = "cart.html";
+        
+    }else {
+        alert("Veuillez sélectionner une couleur et une quantité valide (min. 1)");
+    }
+
+})
+
+
+
 
 
 
