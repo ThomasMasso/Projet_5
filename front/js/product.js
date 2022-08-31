@@ -22,6 +22,12 @@ const item__price = document.getElementById("price");
 const item__description = document.getElementById("description");
 
 
+
+
+
+
+
+
 //Récupérer les données de l'API
 
 fetch(`http://localhost:3000/api/products/${productId}`)
@@ -30,10 +36,6 @@ fetch(`http://localhost:3000/api/products/${productId}`)
 
 .then(value => {
 
-    // création des éléments composant ma carte produit
-        
-    
-
     // modif DOM avec les données appelées de l'API
 
     newItemImg.src = `${value.imageUrl}`;
@@ -41,12 +43,27 @@ fetch(`http://localhost:3000/api/products/${productId}`)
     item__title.innerText = `${value.name}`;
     item__price.innerText = `${value.price}`;
     item__description.innerText = `${value.description}`;
-
-    //ajout des enfants suite à la création élément ci-dessus
-
     
+    
+    
+    for(i = 0; i < value.colors.length; i++) {
+        const idColors = document.getElementById('colors');
+        const optionColors = document.createElement("option");
+        optionColors.value = `${value.colors[i]}`;
+        optionColors.text = `${value.colors[i]}`;
+        idColors.add(optionColors, null);
+    }
         
 })
+
+
+// panier = array [id, qté, couleur]
+// localstorage pour accès à l'array depuis page panier
+// ajout produit panier : si new produit => new elem dans array
+//                       si produit présent => incrémtentation de la qté du produit présent array
+
+
+
 
 
 
