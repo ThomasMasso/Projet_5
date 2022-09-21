@@ -57,37 +57,72 @@ fetch(`http://localhost:3000/api/products/${productId}`)
 })
 
 
-// panier = array [id, qté, couleur]
-// localstorage pour accès à l'array depuis page panier
-// ajout produit panier : si new produit => new elem dans array
-//                       si produit présent => incrémtentation de la qté du produit présent array
-
-
-// créer array localstorage
-
-
-
-
-
-// déclaration variables pour accès btn
 const button = document.getElementById("addToCart");
 
-// vérifier au click du btn qu'une couleur est renseignée ainsi qu'une qté sup à 0
-button.addEventListener("click", function() {
+
+
+
+
+button.addEventListener("click", function(e) {
+
+    e.preventDefault();
 
     if (option.value != "" && quantity.value >= 1) {
 
-        let productStorage =  [productId, quantity.value, colors.value];
-        let arrayLinea = JSON.stringify(productStorage);
-        localStorage.setItem('array', arrayLinea);
+        let addProduct = {
+            id : productId, 
+            quantity : Number(quantity.value), 
+            color : colors.value
+        };
+        
+        let productLocalStorage = [];
 
-        window.location.href = "cart.html";
+
+        function retrieveArray() {
+            let productsJson = JSON.parse(localStorage.getItem('productLocalStorage'));
+            let productLocalStorage = [...productsJson];
+            let trouver = 0;
+        
+            for (let i = 0; i < productLocalStorage.length; i++) {
+        
+                if (productLocalStorage[i].id === addProduct.id && productLocalStorage[i].color === addProduct.color) {
+        
+
+                    productLocalStorage[i].quantity += addProduct.quantity;
+                    trouver = 1;
+                };
+        
+            };
+            if (trouver === 0) {
+                productLocalStorage.push(addProduct);
+            }
+            localStorage.clear();
+            localStorage.setItem('productLocalStorage', JSON.stringify(productLocalStorage));
+        }
+        
+        function addStorage() {
+            productLocalStorage.push(addProduct);
+            localStorage.setItem('productLocalStorage', JSON.stringify(productLocalStorage));
+        }
+
+        if (localStorage.length > 0) {
+            retrieveArray();
+        } else {
+            addStorage();
+        }
+
+        
+        //window.location.href = "cart.html";
+        return
         
     }else {
+        
         alert("Veuillez sélectionner une couleur et une quantité valide (min. 1)");
+
     }
 
 })
+
 
 
 
