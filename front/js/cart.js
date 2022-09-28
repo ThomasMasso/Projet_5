@@ -1,95 +1,110 @@
+// je sélec et je stocke mon container des produits
+const cartItems = document.getElementById('cart__items');
+//console.log(cartItems);
+
+// elements que je dois récupérer pour l'affichage produit
+/*const produit = {
+    id: id.value,
+    nom: nom.value,
+    prix: prix.value,
+    imageUrl: imageUrl.value,
+    altTxt: altTxt.value,
+    couleur: couleur.value,
+    quantite: quantite.value,
+};*/
+
+// transformation de la valeur stockée dans localStorage au format d'origine
+const choixProduit = JSON.parse(localStorage.getItem('productLocalStorage'));
+console.log(choixProduit);
+
+// création du tableau regroupant les produits du localStorage
+const listeProduits = [...choixProduit];
+console.log(listeProduits);
+
+//récupération des éléments composant chaque produit du localStorage
+listeProduits.forEach(produit => {
+    let idValue = produit.id;
+    let colorValue = produit.color;
+    let quantityValue = produit.quantity;
+});
+
+console.log(idValue);
 
 
 
-fetch("http://localhost:3000/api/products")
 
-.then(response => response.json())
 
-.then(value => {
 
-   
 
-    for(i = 0; i < value.length; i++) {
-        
-        let productID = `${value[i]._id}`;
-        let apiPrice = Number(`${value[i].price}`);
 
-        let productsJson = JSON.parse(localStorage.getItem('productLocalStorage'));
-        let productLocalStorage = [...productsJson];
 
-        for (i = 0; i < productLocalStorage[i].length; i++) {
-            if (productLocalStorage[i].id === productID) {
-                //return console.log("ok");
-                let newArticle = document.createElement('article');
-                newArticle.classList.add('cart__item');
-                newArticle.setAttribute('data-id', '{product-ID}');
-                newArticle.setAttribute('data-color', '{product-color}');
-                newArticle.dataset.id = productLocalStorage[i].id;
-                newArticle.dataset.color = productLocalStorage[i].color;
 
-                let divCartItemImg = document.createElement('div');
-                divCartItemImg.classList.add('cart__item__img');
 
-                let newImg = document.createElement('img');
-                newImg.src = `${value[i].imageUrl}`;
-                newImg.alt = `${value[i].altTxt}`;
 
-                let divCartItemContent = document.createElement('div');
-                divCartItemContent.classList.add('cart__item__content');
 
-                let divCartItemContentDescription = document.createElement('div');
-                divCartItemContentDescription.classList.add('cart__item__content__description');
 
-                let newH2 = document.createElement('h2');
 
-                let paraColor = document.createElement('p');
-                let paraPrice = document.createElement('p');
-                
 
-                let divCartItemContentSettings = document.createElement('div');
-                divCartItemContentSettings.classList.add('cart__item__content__settings');
 
-                let divCartItemContentSettingsQuantity = document.createElement('div');
-                divCartItemContentSettingsQuantity.classList.add('cart__item__content__settings__quantity');
 
-                let paraQuantity = document.createElement('p');
 
-                let inputQuantity = document.createElement('input');
-                inputQuantity.setAttribute('type', 'number');
-                inputQuantity.setAttribute('name', 'itemQuantity');
-                inputQuantity.setAttribute('min', '1');
-                inputQuantity.setAttribute('max', '100');
-                inputQuantity.classList.add('itemQuantity');
 
-                let divCartItemContentSettingsDelete = document.createElement('div');
-                divCartItemContentSettingsDelete.classList.add('cart__item__content__settings__delete');
 
-                let paraDeleteItem = document.createElement('p');
-                paraDeleteItem.classList.add('deleteItem');
 
-                newArticle.appendChild(divCartItemImg);
-                divCartItemImg.appendChild(newImg);
 
-                newArticle.appendChild(divCartItemContent);
-                divCartItemContent.appendChild(divCartItemContentDescription);
-                divCartItemContentDescription.appendChild(newH2);
-                divCartItemContentDescription.appendChild(paraColor);
-                divCartItemContentDescription.appendChild(paraPrice);
 
-                divCartItemContent.appendChild(divCartItemContentSettings);
-                divCartItemContentSettings.appendChild(divCartItemContentSettingsQuantity);
-                divCartItemContentSettingsQuantity.appendChild(paraQuantity);
-                divCartItemContentSettingsQuantity.appendChild(inputQuantity);
 
-                divCartItemContentSettings.appendChild(divCartItemContentSettingsDelete);
-                divCartItemContentSettingsDelete.appendChild(paraDeleteItem);
-            }
-        }
-    }
 
+
+
+
+
+
+
+
+
+
+
+// let productLocalStorage = JSON.parse(localStorage.getItem('productLocalStorage'));
+// console.log(productLocalStorage);
+
+// for (i = 0; i < productLocalStorage.length; i++) {
+//     console.log(productLocalStorage.length);
     
-    
-})
+
+// }
+
+
+// création des produits, dans le panier, contenu dans le LS (avec boucle for)
+
+// on pourrait pousser en voulant regrouper un meme produit mais de couleur diff 
+// l'un après l'autre (à voir si possible et en cb de temps) 
+// id fonctionne pas car il y a des lettres mais peut être le prix unitaire
+// il faudra faire un copie du tableau Array.from() avant
+
+// filtrer les éléments et n'afficher que les produits dont l'id est présent dans le LS
+// méthode pour récup le prix unitaire d'un produit présent dans LS
+// 
+
+// 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
