@@ -1,40 +1,91 @@
 // je sélec et je stocke mon container des produits
-const cartItems = document.getElementById('cart__items');
-//console.log(cartItems);
+const cartItem = document.getElementById('cart__items');
 
-// elements que je dois récupérer pour l'affichage produit
-/*const produit = {
-    id: id.value,
-    nom: nom.value,
-    prix: prix.value,
-    imageUrl: imageUrl.value,
-    altTxt: altTxt.value,
-    couleur: couleur.value,
-    quantite: quantite.value,
-};*/
+// je selec et je stocke les blocs représentant les parties de l'affichage des produits
+const cartItemImg = document.querySelector('.cart__item__img');
+const cartItemContent = document.querySelector('.cart__item__content');
+const cartItemContentDescription = document.querySelector('.cart__item__content__description');
+const cartItemContentSettings = document.querySelector('.cart__item__content__settings');
+const cartItemContentSettingsQuantity = document.querySelector('.cart__item__content__settings__quantity');
 
-// transformation de la valeur stockée dans localStorage au format d'origine
-const choixProduit = JSON.parse(localStorage.getItem('productLocalStorage'));
-console.log(choixProduit);
+// je crée les éléments du DOM
+const image = document.createElement('img');
+const titre = document.createElement('h2');
+const couleur = document.createElement('p');
+const prix = document.createElement('p');
+const quantiteText = document.createElement('p');
+const quantiteValeur = document.createElement('input');
 
-// création du tableau regroupant les produits du localStorage
-const listeProduits = [...choixProduit];
-console.log(listeProduits);
 
-//récupération des éléments composant chaque produit du localStorage
-listeProduits.forEach(produit => {
-    let idValue = produit.id;
-    let colorValue = produit.color;
-    let quantityValue = produit.quantity;
+// ------------------Test innerHTML--------------
+
+const totalQuantity = document.getElementById('totalQuantity');
+const totalPrice = document.getElementById('totalPrice');
+
+let totalPriceNumber = 0;
+
+// je récupère les produits du localStorage
+const choixProduits = JSON.parse(localStorage.getItem('productLocalStorage'));
+//console.log(choixProduits);
+let nunmberItem = choixProduits.length;
+
+choixProduits.forEach((item) => {
+    //console.log(item);
+    let idPanier = item.id;
+    let quantitePanier = item.quantity;
+    let couleurPanier = item.color;
+    console.log(idPanier, quantitePanier, couleurPanier);
+
+    fetch(`http://localhost:3000/api/products`)
+
+    .then(response => response.json())
+
+    .then(value => {
+        //console.log(value);
+
+        for(i = 0; i < value.length; i++) {
+            let idAPI = value[i]._id;
+            let priceAPI = value[i].price;
+            //console.log(idAPI);
+            if (idAPI == idPanier) {
+                totalPriceNumber += priceAPI*quantitePanier;
+                console.log(totalPriceNumber);
+                const articleItem = `
+                <article class="cart__item" data-id="${value[i]._id}" data-color="${couleurPanier}">
+                    <div class="cart__item__img">
+                    <img src="${value[i].imageUrl}" alt="${value[i].altTxt}">
+                    </div>
+                    <div class="cart__item__content">
+                    <div class="cart__item__content__description">
+                        <h2>${value[i].name}</h2>
+                        <p>${couleurPanier}</p>
+                        <p>${value[i].price} €</p>
+                    </div>
+                    <div class="cart__item__content__settings">
+                        <div class="cart__item__content__settings__quantity">
+                        <p>Qté : </p>
+                        <input type="number" class="itemQuantity" name="itemQuantity" min="1" max="100" value="${quantitePanier}">
+                        </div>
+                        <div class="cart__item__content__settings__delete">
+                        <p class="deleteItem">Supprimer</p>
+                        </div>
+                    </div>
+                    </div>
+                </article>
+                                    `
+                cartItem.innerHTML += articleItem;
+                
+            };
+        };
+        
+        
+    });
+    totalQuantity.innerText = nunmberItem+=quantitePanier;
+    //totalPrice.innerText = 
+    
+    
 });
-
-console.log(idValue);
-
-
-
-
-
-
+    
 
 
 
